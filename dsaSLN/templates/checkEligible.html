@@ -1,0 +1,81 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block content1 %}
+
+<style>
+    iframe {
+        width: 100%;
+        height: 100vh;
+    }
+</style>
+<label for="all-loans" class="form-label fw-bold mt-3">Select Loan Type:</label>
+<select name="all-loans" id="all-loans" class="mb-5 form-select" onchange="triggerUrl(this)">
+    <option value="" selected disabled>Choose Your Loan</option>
+    <option value="{% url 'busicheckEligible' %}">Business Loan</option>
+    <option value="{% url 'educheckEligible' %}">Education Loan</option>
+    <option value="{% url 'homecheckEligible' %}">Home Loan</option>
+    <option value="{% url 'carcheckEligible' %}">Car Loan</option>
+    <option value="{% url 'creditcheckEligible' %}">Credit Card</option>
+    <option value="{% url 'goldcheckEligible' %}">Gold Loan</option>
+    <option value="{% url 'personalcheckEligible' %}">Personal Loan</option>
+    <option value="{% url 'othercheckEligible' %}">Other Loan</option>
+
+    <option value="{% url 'lapcheckEligible' %}">LAP</option>
+
+    <!-- Add more loan types here -->
+</select>
+
+
+<script>
+
+function triggerUrl(e) {
+    console.log(e.value)
+        window.location.href = e.value;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var iframe = document.getElementById('myIframe');
+        var initialSrc = iframe.src;
+        console.log(initialSrc + " 00009");
+        console.log("trreew42442424..//")
+
+        if (iframe) {
+            iframe.onload = function () {
+                console.log("Iframe Loaded");
+
+                var iframeOrigin = new URL('{{ url }}').origin;
+
+                console.log("Iframe Origin:", iframeOrigin);
+
+                iframe.contentWindow.postMessage('Apply custom styles', iframeOrigin);
+
+                console.log("Message Sent to Iframe");
+            };
+        } else {
+            console.log("Iframe not found");
+        }
+
+        // function receiveMessage(event) {
+
+        //     console.log('Received URL from iframe:', event.data);
+        //     localStorage.setItem('iframeUrl', event.data);
+
+        //     // ifUrl= localStorage.getItem('iframeUrl');
+
+        // }
+
+        // window.addEventListener('message', receiveMessage, false);
+
+
+    });
+
+</script>
+
+<iframe src="{{ url }}?refCode={{dsaId}}&franrefCode=SLNFR1005" frameborder="0" class="iframe" id="myIframe"></iframe>
+
+
+
+
+{% endblock %}
+
+

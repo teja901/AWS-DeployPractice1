@@ -1,0 +1,302 @@
+{% extends 'DsaDashboard.html' %}
+
+
+{% block Extrascripts %}
+
+    
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+
+
+{% endblock %}
+
+{% block content1 %}
+
+
+<style>
+  body {
+    overflow-x: hidden;
+  }
+
+  .table-responsive::-webkit-scrollbar {
+    display: none;
+    overflow-x: auto !important;
+  }
+
+  .table-responsive th {
+    min-width: 200px !important;
+  }
+
+  .page-active {
+    background-color: rgb(61, 61, 242);
+    color: white !important;
+  }
+
+  .number {
+    cursor: pointer;
+  }
+
+  .number:hover {
+    background-color: rgb(61, 61, 242);
+    color: white !important;
+  }
+</style>
+
+<div class="row searchSection mt-5">
+  <div class="col-12 col-md-6 mb-3">
+    <form class="d-flex px-3" method="post" id="serachForm1">
+      {% csrf_token %}
+      <input
+        class="form-control me-2 applicationValue"
+        name="applicationid"
+        type="search"
+        placeholder="Search By Application Id.."
+        aria-label="Search"
+      />
+      <button class="btn btn-outline-primary" type="submit" id="serachButton">
+        Search
+      </button>
+    </form>
+  </div>
+
+
+  <div class="col-md-6 col-12 mb-3">
+    <form class="d-flex px-3" method="post" id="serachForm2">
+        {% csrf_token %}
+ <input type="text" name="datefilter" id="daterange" class="form-control w-100 me-2 dateValue" placeholder="Please Select Your Date Range.."/>
+<button class="btn btn-outline-primary" type="submit" id="dateSearch">Search</button>
+</form>
+</div>
+
+
+</div>
+
+
+<script>
+
+  $(document).ready(function () {
+              $('#daterange').daterangepicker({
+                  applyButtonClasses: 'btn btn-primary',
+                  cancelButtonClasses: 'btn btn-danger',
+                  opens: 'right',
+                  locale: {
+                      format: 'YYYY-MM-DD',
+                      separator: ' to ', 
+                      cancelLabel: 'Cancel',  
+                      applyLabel: 'OK'
+                      
+                  },
+          
+                  ranges: {
+                      'Today': [moment(), moment()],
+                      'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                      'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                      'This Month': [moment().startOf('month'), moment().endOf('month')],
+                      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                  },
+                  autoUpdateInput: false,  // Prevent automatic update of the input with the selected date
+                  showDropdowns: true,     // Show dropdowns for year and month selection
+                  showWeekNumbers: true,   // Show week numbers in the calendar
+                  autoApply: false,        // Require users to click Apply/OK to confirm the selection
+              }, function (start, end, label) {
+                  console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+              });
+          
+              // Event listener for Apply (OK) button
+              $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+                  $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                  console.log("Apply clicked: " + $(this).val());
+              });
+          
+              // Event listener for Cancel button
+              $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+                  $(this).val('');  // Clear the input field on cancel
+                  console.log("Cancel clicked: Input cleared");
+              });
+          
+              // Event listener for any change in the Date Range Picker
+              $('#daterange').on('apply.daterangepicker change', function() {
+                  console.log("Input value changed to: " + this.value);
+              });
+          });
+      </script>
+  
+
+{% include 'DataTables.html' %}
+
+<script>
+  
+  document.addEventListener("DOMContentLoaded", () => {
+
+    // localStorage.setItem('isSeenComissons',true);
+
+
+    attachClaimListeners();
+    attachNumbers();
+    sertriger();
+  });
+
+  function sertriger() {
+    document
+      .querySelector("#serachButton")
+      .addEventListener("click", searchTrigger);
+  }
+
+  async function searchTrigger(e) {
+    e.preventDefault();
+    if (document.querySelector(".applicationValue").value != "") {
+      console.log(document.querySelector(".applicationValue").value);
+      const valueData = document.querySelector(".applicationValue").value;
+      const location = window.location.href;
+      console.log(`${location}?applicationid=${valueData}`);
+      const resonse = await fetch(`${location}?applicationid=${valueData}`);
+      const data = await resonse.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, "text/html");
+
+      common(doc);
+    }
+  }
+
+  showAllRecordsButton();
+        function showAllRecordsButton(){
+        document.querySelector('#showbtn').addEventListener('click',showAll);
+        }
+        
+async function showAll(e){
+  console.log("clicked..")
+  const url=window.location.href;
+  const promise=await fetch(`${url}?showall=show`);
+  const result=await promise.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(result, "text/html");
+  common(doc);
+  
+
+}
+
+  function common(doc) {
+    document.querySelector("#claimAll").innerHTML =
+      doc.querySelector("#claimAll").innerHTML;
+    document.querySelector("tbody").innerHTML =
+      doc.querySelector("tbody").innerHTML;
+
+    document.querySelector(".pagination").innerHTML =
+      doc.querySelector(".pagination").innerHTML;
+
+    if (document.querySelectorAll(".tablescripts")) {
+      document.querySelectorAll(".tablescripts").forEach((scrpt) => {
+        scrpt.remove();
+      });
+    }
+    var scriptTags = doc.querySelectorAll(".tableScripts");
+    scriptTags.forEach(function (scriptTag) {
+      var newScript = document.createElement("script");
+      newScript.className = "tablescripts";
+      if (scriptTag.src) {
+        newScript.src = scriptTag.src;
+      }
+
+      newScript.innerHTML = scriptTag.innerHTML;
+
+      document.body.appendChild(newScript);
+    });
+
+    sertriger();
+    attachClaimListeners();
+    attachNumbers();
+    showAllRecordsButton();
+  }
+
+  // attachClaimListeners();
+
+  function attachNumbers() {
+    document.querySelectorAll(".number").forEach((claim) => {
+      claim.addEventListener("click", numberTriggered);
+    });
+  }
+
+  function attachClaimListeners() {
+    document.querySelectorAll(".claimbtn").forEach((claim) => {
+      claim.addEventListener("click", triggered);
+    });
+  }
+
+  async function triggered(e) {
+    e.preventDefault();
+    var audio = document.getElementById("claim-sound");
+    audio.play();
+
+    const href = this.getAttribute("href");
+    const location = window.location.href;
+
+    const response = await fetch(`${location}${href}`);
+
+    const data = await response.text();
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data, "text/html");
+
+    common(doc);
+  }
+
+
+  document.querySelector('#dateSearch').addEventListener('click',dateclick);
+
+  async function dateclick(e){
+
+    e.preventDefault();
+    if (document.querySelector(".dateValue").value != "") {
+
+      const dateVal=document.querySelector(".dateValue").value
+      const searchForm=document.querySelector('#serachForm2')
+      const location = window.location.href;
+      const formData = new FormData(searchForm);
+
+      const resonse = await fetch(`${location}?datefilter=${dateVal}`)
+      const data = await resonse.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, "text/html");
+
+      common(doc);
+
+
+
+    }
+
+
+
+  }
+
+  async function numberTriggered(e) {
+    e.preventDefault();
+
+    const href = this.getAttribute("href");
+    const location = window.location.href;
+
+    const response = await fetch(`${location}${href}`);
+
+    const data = await response.text();
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data, "text/html");
+
+    common(doc);
+  }
+</script>
+{% endblock %}

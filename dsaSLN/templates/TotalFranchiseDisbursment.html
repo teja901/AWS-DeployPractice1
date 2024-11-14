@@ -1,0 +1,49 @@
+
+
+<div class="row mt-2 px-3 mb-3 mt-3 totalAmountwrapper">
+
+    <div class="col-md-6 col-12 mb-3">
+        <form class="d-flex px-3" method="post" id="serachForm2">
+            {% csrf_token %}
+     <input type="text" name="date" id="daterange" class="form-control w-100 me-2 dateValue" placeholder="Please Select Your Date Range.."/>
+    <button class="btn btn-outline-primary" type="submit" id="serachButton2">Search</button>
+    </form>
+    </div>
+
+    <input type="hidden" name="" id="hidenAmount" value="{{FranchiseTotalAmount}}">
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+        <div class="col-12 bg-dark text-white">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                    <p class="title fw-bold display-6">Total Franchise Amount</p>
+                    <span class="display-6">₹<span class="fw-bold totalPrice" data-target="{{FranchiseTotalAmount}}" id="counter"></span></span>
+                </div>
+          
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const amount1=document.querySelector('#hidenAmount').value;
+    console.log(amount1,"ki987654r")
+    const counterElement = document.getElementById('counter');
+    const target = parseInt(counterElement.getAttribute('data-target'));
+    let count = 0;
+    const speed = Math.ceil(target / 100);
+    const counterInterval = setInterval(() => {
+        count += speed;
+        if (count >= target) {
+            count = amount1; 
+            clearInterval(counterInterval);
+        }
+        counterElement.textContent = count;
+    }, 30); 
+</script>
+
+
+
+
+

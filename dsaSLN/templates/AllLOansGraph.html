@@ -1,0 +1,203 @@
+
+<style>
+
+
+    .card .filter .right {
+        transition: 0.3s linear;
+      }
+    
+      .card .filter a[aria-expanded="true"] .right {
+        transform: rotate(90deg);
+      }
+
+      .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+      /* @keyframes hueAnimation {
+        from {
+          filter: hue-rotate(0deg);
+        }
+        to {
+          filter: hue-rotate(360deg);
+        }
+      } */
+    
+      /* .animated-text {
+        
+        font-weight: bold;
+        animation: hueAnimation 5s infinite linear;
+      } */
+    
+    
+    </style>
+    
+    
+
+<div class="card shadow-lg bg-white mb-5 mt-5">
+    <div class="card-body filter">
+      <p class="d-inline-flex gap-1 w-100">
+        <a
+          class="nav-link w-100 d-flex align-items-center"
+          data-bs-toggle="collapse"
+          href="#collapseExample3"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample3"
+        >
+          <!-- <span class="animated-text">
+            <i class="bi bi-search fs-4 px-3"></i
+          ></span> -->
+
+          <span class="fs-4 text-black fw-bold text-shadow">Show Graphs
+          </span>
+
+          <span class="ms-auto right text-black"
+            ><i class="bi bi-chevron-right right-icon"></i
+          ></span>
+        </a>
+
+        <!-- <i class="bi bi-chevron-right"></i> -->
+      </p>
+      <div class="collapse" id="collapseExample3">
+        <div class="card card-body border-0">
+          <div class="row gy-5">
+
+            
+            <div class="col-12">
+             
+               
+
+                <!-- <h1>{{labels}}</h1> -->
+                <div>
+                    <canvas id="totalloanapplications"></canvas>
+                </div>
+
+                <div>
+                  <canvas id="totalloansAmount"></canvas>
+              </div>
+
+                <script>
+                    var colors = [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)'
+];
+
+var labels = {{loanstitle|safe}}; 
+console.log(labels) 
+var data = {{loansCount|safe}}
+
+                    var ctx = document.getElementById('totalloanapplications').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'All Loan Applications',
+                                data: data,
+                                backgroundColor: colors,
+                                
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Total Loan Applications({{totalLoans}})'
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true
+                                },
+                                y: {
+                                    beginAtZero: false,
+                                type:'logarithmic',
+                                min:0
+                                }
+                            }
+                        }
+                    });
+                </script>
+               
+
+
+
+               <script>
+                var colors = [
+'rgba(255, 99, 132, 0.2)',
+'rgba(54, 162, 235, 0.2)',
+'rgba(255, 206, 86, 0.2)',
+'rgba(75, 192, 192, 0.2)',
+'rgba(153, 102, 255, 0.2)'
+];
+
+var labels1 = {{loansAmountTitle|safe}}; 
+console.log(labels1) 
+var data1 = {{loansAmounts|safe}}
+
+                var ctx1 = document.getElementById('totalloansAmount').getContext('2d');
+                var myChart1 = new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: labels1,
+                        datasets: [{
+                            label: 'All Loan Amount',
+                            data: data1,
+                            backgroundColor: colors,
+                            
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Total Loan Amount({{AlltotalLoansAmount}})'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            },
+                            y: {
+                                beginAtZero: false,
+                                type:'logarithmic',min:0
+                               
+                            }
+                        }
+                    }
+                });
+            </script>
+           
+              
+            </div>
+
+           
+        
+           
+        
+
+          </div><!--Row-->
+
+
+        </div>
+      </div>
+    </div>
+  </div><!-- MAinCard1-->
+
+  <br>

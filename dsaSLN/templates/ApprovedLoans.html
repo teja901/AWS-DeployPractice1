@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Site</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+  <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+ 
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script> -->
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+crossorigin="anonymous"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+crossorigin="anonymous"></script> -->
+
+</head>
+<body>
+
+<style>
+
+
+.card .filter .right {
+    transition: 0.3s linear;
+  }
+
+  .card .filter a[aria-expanded="true"] .right {
+    transform: rotate(90deg);
+  }
+
+  @keyframes hueAnimation {
+    from {
+      filter: hue-rotate(0deg);
+    }
+    to {
+      filter: hue-rotate(360deg);
+    }
+  }
+
+  .animated-text {
+    /* font-size: 24px; */
+    font-weight: bold;
+    animation: hueAnimation 5s infinite linear;
+  }
+
+
+</style>
+
+
+    
+<div class="container mt-5">
+    <div class="card shadow-lg bg-dark mb-5">
+      <div class="card-body filter">
+        <p class="d-inline-flex gap-1 w-100">
+          <a
+            class="nav-link w-100 d-flex align-items-center"
+            data-bs-toggle="collapse"
+            href="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            <span class="animated-text">
+              <i class="bi bi-search fs-4 px-3"></i
+            ></span>
+  
+            <span class="fs-4 text-white">Filter the Records</span>
+  
+            <span class="ms-auto right text-white"
+              ><i class="bi bi-chevron-right right-icon"></i
+            ></span>
+          </a>
+  
+          <!-- <i class="bi bi-chevron-right"></i> -->
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body bg-dark">
+            <div class="row gy-5">
+  
+              <div class="col-12">
+                <label
+                  for="all-loans"
+                  class="form-label fw-bold  text-white text-capitalize"
+                  >Select Loan Type :</label>
+                <select name="all-loans" id="all-loans" class=" form-select">
+                  <option value="" selected disabled>Choose Your Loan</option>
+                  <option value="">Personal Loan</option>
+                  <option value="">Business Loan</option>
+  
+                  <option value="">Education Loan</option>
+  
+                  <option value="">Home Loan</option>
+  
+                  <option value="">Credit Card Loan</option>
+  
+                  <option value="">Car Loan</option>
+  
+                  <option value="">LAP</option>
+                </select>
+              </div>
+  
+              <div class="col-6">
+  
+             
+                  <label
+                  for="daterange"
+                  class="form-label fw-bold  text-white text-capitalize"
+                  >Select Date :</label>
+              <input type="text" id="daterange" class="form-control w-100"/>
+          
+             
+              </div>
+  
+            </div><!--Row-->
+  
+  
+          </div>
+        </div>
+      </div>
+    </div><!-- MAinCard1-->
+
+    
+<script>
+        
+    $(document).ready(function () {
+        $('#daterange').daterangepicker({
+            applyButtonClasses: 'btn btn-primary',
+            cancelButtonClasses: 'btn btn-danger',
+            opens: 'right',
+            locale: {
+                format: 'YYYY-MM-DD',
+                cancelLabel: 'Cancel',  
+                applyLabel: 'OK'       
+            },
+    
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            autoUpdateInput: true,  // Prevent automatic update of the input with the selected date
+            showDropdowns: true,     // Show dropdowns for year and month selection
+            showWeekNumbers: true,   // Show week numbers in the calendar
+            autoApply: false,        // Require users to click Apply/OK to confirm the selection
+        }, function (start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    
+        // Event listener for Apply (OK) button
+        $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+            console.log("Apply clicked: " + $(this).val());
+        });
+    
+        // Event listener for Cancel button
+        $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');  // Clear the input field on cancel
+            console.log("Cancel clicked: Input cleared");
+        });
+    
+        // Event listener for any change in the Date Range Picker
+        $('#daterange').on('apply.daterangepicker change', function() {
+            console.log("Input value changed to: " + this.value);
+        });
+    });
+
+    </script>
+
+
+<style>
+
+
+  
+</style>
+<!-- your_template.html -->
+<h1>{{title}}</h1>
+ <table class="table">
+    <thead>
+        <tr>
+            <th>Sno</th>
+            <th>Application Id</th>
+            <th>Name</th>
+            <th>Loan Type</th>
+            <th>Loan Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in objects %}
+            <tr>
+                <!-- Display serial number -->
+                <td>{{ forloop.counter0|add:start_index }}</td>
+                <td>{{ obj.application_id }}</td>
+                <td>{{ obj.name }}</td>
+                <td>{{obj.loan_type}}</td>
+                <td>{{obj.required_loan_amount}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No records found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- Pagination links -->
+<div class="pagination row">
+    <div class="col-12 d-flex justify-content-center">
+    <span class="step-links">
+        {% if objects.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ objects.previous_page_number }}">previous</a>
+        {% endif %}
+
+
+        
+        {% if objects.number >= objects.paginator.num_pages|add:'-2' and objects.paginator.num_pages|add:'-2' != 1 and objects.paginator.num_pages >= 3 %}
+            <span>...</span>
+        {% endif %}
+
+        
+
+       
+
+        {% for num in objects.paginator.page_range %}
+
+        {% if objects.number == objects.paginator.num_pages and num >=  objects.number|add:'-2' %}
+            
+        <a href="?page={{ num }}">{{ num }}</a>
+
+       {% elif num >= objects.number and num <= objects.number|add:'2' and objects.number|add:'2' <= objects.paginator.num_pages   %}
+            <a href="?page={{ num }}">{{ num }}</a>
+            {% if num ==  objects.number|add:'2' and num != objects.paginator.num_pages %}
+            <span>...</span>
+                
+            {% endif %}
+       {% elif objects.number|add:'2' > objects.paginator.num_pages and num >= objects.number|add:'-1' and num <= objects.paginator.num_pages %}
+        <a href="?page={{ num }}">{{ num }}</a>
+
+       {% endif %}
+{% endfor %}
+
+
+
+
+
+        <!-- <p>{{objects.paginator.num_pages}}</p> -->
+
+       
+
+        {% if objects.has_next %}
+            <a href="?page={{ objects.next_page_number }}">next</a>
+            <a href="?page={{ objects.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+</div>
+</body>
+</html>

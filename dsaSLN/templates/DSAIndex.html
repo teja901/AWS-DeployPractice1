@@ -1,0 +1,574 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block Extrascripts %}
+
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+{% endblock %}
+
+{% block content2 %}
+
+<style>
+   .inside-card {
+    position: relative;
+    transition: transform 0.3s ease-in-out;  
+}
+
+.inside-card:hover {
+    transform: translateY(-3px); 
+    cursor: pointer;
+}
+
+
+    
+</style>
+
+{% include 'TotalFranchiseDisbursment.html' %}
+
+
+
+<div class="row my-5 ">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+            <!-- 1st -->
+        <div class="col-12">
+
+            <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-info">
+            <p class="title fw-bold display-6">Total Franchise Owner Amount</p>
+
+            <p class="fw-bold" style="font-size: 30px;">{{FranchiseOwnerTotalAmount}}</p>
+            </div>
+
+        </div>
+        <!-- 1st -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row my-5 ">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+            <!-- 1st -->
+        <div class="col-12 col-md-6">
+
+            <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-success">
+            <p class="title fw-bold display-6">Total DSA's</p>
+
+            <p class="fw-bold" style="font-size: 30px;">{{dsaCount}}</p>
+            </div>
+
+        </div>
+        <!-- 1st -->
+
+
+            <!-- 2nd -->
+            <div class="col-12 col-md-6">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-primary">
+                <p class="title fw-bold display-6">Total SALE's</p>
+    
+                <p class="fw-bold" style="font-size: 30px;">{{salesCount}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+<div class="row my-5 ">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+            <!-- 1st -->
+        <div class="col-12 col-md-6">
+
+            <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+            <p class="title fw-bold display-6">Total DSA's Amount</p>
+
+            <p class="fw-bold" style="font-size: 30px;">{{allDSATotalAmount}}</p>
+            </div>
+
+        </div>
+        <!-- 1st -->
+
+
+            <!-- 2nd -->
+            <div class="col-12 col-md-6">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-info">
+                <p class="title fw-bold display-6">Total SALE's Amount</p>
+    
+                <p class="fw-bold" style="font-size: 30px;">{{allSalesAmount}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+  
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="row">
+
+<div class="col-12 mt-3"> <!--Colum12-->
+
+    <div class="card shadow"><!--Main Card-->
+
+
+
+        <div class="card-body row gy-2"><!--Card-Body-->
+
+
+
+           <!--Starts 1st card-->
+
+            <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-success d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Total Applications</p>
+
+                    <p class="fw-bold">{{totalApplications}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+
+            
+           <!--Starts 1st card-->
+
+           
+
+           
+           <!--Starts 2nd card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-danger d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Business Loan Applications</p>
+
+                    <p class="fw-bold">{{businessLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 2nd card-->
+
+
+
+            <!--Starts 3rd card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-secondary d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Personal Loan Applications</p>
+
+                    <p class="fw-bold">{{personalLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 3rd card-->
+
+
+             <!--Starts 4rth card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-black d-flex justify-content-center align-items-center flex-column text-white">
+
+                     <p class="title fw-bold">Education Loan Applications</p>
+
+                    <p class="fw-bold">{{EducationLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 4rth card-->
+
+
+             <!--Starts 5th card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-secondary d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Home Loan Applications</p>
+
+                    <p class="fw-bold">{{homeLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 5th card-->
+
+
+             <!--Starts 6th card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-success d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">LAP Applications</p>
+
+                    <p class="fw-bold">{{lapLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 6th card-->
+
+
+             <!--Starts 7th card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-danger d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Car Loan Applications</p>
+
+                    <p class="fw-bold">{{carLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 7th card-->
+
+
+
+              <!--Starts 8th card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-black d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Other Loan Applications</p>
+
+                    <p class="fw-bold">{{otherLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 8th card-->
+
+
+            
+              <!--Starts 9th card-->
+
+           <div class="col-md-4 col-12"><!--Inside Col-4-->
+            <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+
+
+                <div class="card-body bg-info d-flex justify-content-center align-items-center flex-column text-white">
+
+                    <p class="title fw-bold">Gold Loan Applications</p>
+
+                    <p class="fw-bold">{{goldLength}}</p>
+                </div>
+
+            </div><!--Inside Sub MAinCard-->
+
+            </div><!--Inside Col-4-->
+
+            <!--Starts 9th card-->
+
+
+           
+
+
+
+
+        </div><!--Card-Body-->
+
+    </div><!--Main Card-->
+
+</div> <!--Colum12-->
+
+</div>
+
+
+
+<div class="row mt-5">
+
+    <div class="col-12"> 
+    <div class="card shadow">
+
+        <div class="card-body row gy-2">
+
+            <!-- 1st -->
+        <div class="col-12 col-md-4">
+
+            <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-success">
+            <p class="title fw-bold">Total Insurances</p>
+
+            <p class="fw-bold">{{TotalInsurances}}</p>
+            </div>
+
+        </div>
+        <!-- 1st -->
+
+
+            <!-- 2nd -->
+            <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-primary">
+                <p class="title fw-bold">All Insurances</p>
+    
+                <p class="fw-bold">{{AllInsurance}}</p>
+                </div>
+    
+            </div>
+            <!-- 2nd -->
+
+
+            <!-- 3rd -->
+            <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                <p class="title fw-bold">Life Insurances</p>
+    
+                <p class="fw-bold">{{LifeInsurance}}</p>
+                </div>
+    
+            </div>
+            <!-- 3rd -->
+
+
+             <!-- 4rth -->
+             <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-danger">
+                <p class="title fw-bold">General Insurances</p>
+    
+                <p class="fw-bold">{{GeneralInsurnace}}</p>
+                </div>
+    
+            </div>
+            <!-- 4rth -->
+
+
+            <!-- 5th -->
+            <div class="col-12 col-md-4">
+
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                <p class="title fw-bold">Health Insurances</p>
+    
+                <p class="fw-bold">{{HealthInsurance}}</p>
+                </div>
+    
+            </div>
+            <!-- 5th -->
+
+
+
+
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="row mt-5 px-3 mb-5">
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+        <div class="col-12 bg-success text-white">
+                <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                    <p class="title fw-bold">Total Credit Cards</p>
+                    <p class="fw-bold">{{creditCard}}</p>
+                </div>
+          
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+
+    function addListeners(){
+
+    }
+
+function convertNumberToIndianRupees(num){
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(num);
+
+}
+
+// const amount={{FranchiseTotalAmount}};
+// console.log(amount,"jj");
+// const number=convertNumberToIndianRupees(amount);
+// console.log(number,"oo");
+// document.querySelector('.totalPrice').innerHTML= `${number}`;
+
+
+$('#serachForm2').on('submit',async (e)=>{
+    e.preventDefault();
+    const url=window.location.href;
+    
+    if($('#daterange').val()!==''){
+        const dateValue=$('#daterange').val();
+        // console.log(url);
+        
+        const response=await fetch(`${url}?date=${dateValue}`);
+        const result=await response.text();
+        // console.log(result)
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(result, "text/html");
+
+        // const resultAmount=doc.querySelector('.totalPrice').innerHTML;
+        // console.log(resultAmount);
+        // doc.querySelector('.totalPrice').textContent=convertNumberToIndianRupees(resultAmount);
+
+        const resultvalueAmo=doc.querySelector('#hidenAmount').value;
+        const number=convertNumberToIndianRupees(resultvalueAmo);
+// console.log(number,"oo");
+           document.querySelector('.totalPrice').innerHTML= resultvalueAmo;
+
+
+
+    }
+   
+});
+
+
+
+
+
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+                $('#daterange').daterangepicker({
+                    applyButtonClasses: 'btn btn-primary',
+                    cancelButtonClasses: 'btn btn-danger',
+                    opens: 'right',
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                        separator: ' to ', 
+                        cancelLabel: 'Cancel',  
+                        applyLabel: 'OK'
+                        
+                    },
+            
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    autoUpdateInput: false,  // Prevent automatic update of the input with the selected date
+                    showDropdowns: true,     // Show dropdowns for year and month selection
+                    showWeekNumbers: true,   // Show week numbers in the calendar
+                    autoApply: false,        // Require users to click Apply/OK to confirm the selection
+                }, function (start, end, label) {
+                    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                });
+            
+                // Event listener for Apply (OK) button
+                $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+                    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                    console.log("Apply clicked: " + $(this).val());
+                });
+            
+                // Event listener for Cancel button
+                $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+                    $(this).val('');  // Clear the input field on cancel
+                    console.log("Cancel clicked: Input cleared");
+                });
+            
+                // Event listener for any change in the Date Range Picker
+                $('#daterange').on('apply.daterangepicker change', function() {
+                    console.log("Input value changed to: " + this.value);
+                });
+            });
+        
+    </script>
+
+
+
+
+
+{% endblock %}

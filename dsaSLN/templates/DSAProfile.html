@@ -1,0 +1,198 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block content1 %}
+
+
+
+
+    
+
+<style>
+    label {
+      font-weight: bold;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+   
+  </style>
+  
+  <div class="container">
+    <p class="display-5 text-uppercase text-center fw-bolder">MY Profile</p>
+    <form action="" method="post" class="py-5 profileForm">
+      {% for item in data %}
+  
+  
+      <label for="franchid" class="form-label">Franchise Id:</label>
+      <input
+        type="text"
+        name="franchid"
+        id="franchid"
+        value="{{item.franchise_id}}"
+        class="form-control"
+        readonly
+      />
+  
+      <label for="dsa_name" class="form-label">Name:</label>
+      <input
+        type="text"
+        name="name"
+        id="dsa_name"
+        value="{{item.name}}"
+        class="form-control"
+        required
+      />
+  
+      <label for="email" class="form-label">Email:</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        value="{{item.email}}"
+        class="form-control"
+        aria-describedby="validationServer03Feedback"
+        required
+      />
+      <div id="validationServer03Feedback" class="invalid-feedback">
+        Please provide a valid Email.
+      </div>
+  
+      <label for="mobilenumber" class="form-label"> Mobile Number:</label>
+      <input
+        type="text"
+        name="mobilenumber"
+        id="mobilenumber"
+        value="{{item.phone}}"
+        class="form-control"
+        required
+      />
+  
+      <label for="pan" class="form-label">PAN Number:</label>
+      <input
+        type="text"
+        name="pan"
+        id="pan"
+        value="{{item.pan}}"
+        class="form-control"
+        readonly
+      />
+  
+      <label for="aadhar" class="form-label">Aadhar Number:</label>
+      <input
+        type="text"
+        name="aadhar"
+        id="aadhar"
+        value="{{item.aadhar}}"
+        class="form-control"
+        readonly
+      />
+  
+      <label for="profession" class="form-label">Profession:</label>
+      <input
+        type="text"
+        name="profession"
+        id="profession"
+        value="{{item.profession}}"
+        class="form-control"
+        required
+        pattern="[a-zA-Z]+"
+      />
+  
+      <label for="city" class="form-label">City Name:</label>
+      <input
+        type="text"
+        name="city"
+        id="city"
+        value="{{item.city}}"
+        class="form-control"
+        required
+        pattern="[a-zA-Z]+"
+      />
+
+
+    {% if edited %}
+    <button type="submit" class="btn btn-success mt-3">Edited</button>
+
+    {% else  %}
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+        
+    {% endif %}
+
+</form>
+
+{% endfor %}
+
+</div>
+
+
+<script>
+    $(".profileForm").on("submit", () => {
+      const regexCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+  
+      const email = $("#email").val();
+  
+      if (!regexCheck.test(email)) {
+        document.getElementById("email").classList.add("is-invalid");
+        return false;
+      } else {
+        document.getElementById("email").classList.remove("is-invalid");
+      }
+    });
+  
+    $("#mobilenumber").on("input", (e) => {
+      let { value } = e.target;
+      const maxLength = 10;
+      const regexCheck = /[^0-9]/g;
+  
+      value = value.replace(regexCheck, "");
+  
+      if (value.length > maxLength) {
+        value = value.slice(0, maxLength);
+      }
+  
+      e.target.value = value;
+    });
+
+
+
+    
+$('#pan').on('input',(e)=>{
+
+    console.log(e.target.value)
+    let {value}=e.target;
+    if(value.length<=5){
+    
+    value=value.slice(0,5)
+   value= value.replace(/[^A-Za-z]/,'');
+   console.log(value);
+   e.target.value=value;
+}
+
+
+
+ if(value.length===10){
+    
+    let firstpart=value.slice(0,9)
+    let secondpart=value.slice(value.length-1)
+    secondpart=secondpart.replace(/[^A-Za-z]/,'');
+    console.log(firstpart)
+    console.log(firstpart+secondpart)
+    e.target.value=firstpart+secondpart;
+    
+}
+ else if(value.length>5 && value.length<10){
+    
+    let first=value.slice(0,5)
+    let second=value.slice(5,10)
+    second=second.replace(/[^0-9]/,'');
+    console.log(first+second);
+    e.target.value=first+second;
+    
+}
+
+    });
+  </script>
+
+{% endblock %}
+

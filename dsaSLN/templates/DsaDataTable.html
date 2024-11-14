@@ -1,0 +1,193 @@
+
+
+<div class="table-responsive mt-3"><!--row-->
+    <table class="table" id="myTable">
+       <thead>
+           <tr>
+               <th>Sno</th>
+               <th>Register Id</th>
+               <th>Total Loans</th>
+               <th>Business Loan</th>
+               <th>Education Loan</th>
+               <th>LAP Loan</th>
+               <th>Personal Loan</th>
+               <th>Home Loan</th>
+               <th>Car Loan</th>
+               <th>Gold Loan</th>
+               <th>Other Loan</th>
+
+               <th>Approved loans</th>
+               <th style="min-width: 300px !important;">Business Approved Loan</th>
+               <th style="min-width: 300px !important;">Education Approved Loan</th>
+               <th>LAP Approved Loan</th>
+               <th style="min-width: 300px !important;">Personal Approved Loan</th>
+               <th style="min-width: 300px !important;">Home Approved Loan</th>
+               <th style="min-width: 300px !important;">Car Approved Loan</th>
+
+               <th>Rejected Loans</th>
+               <th style="min-width: 300px !important;">Business Rejected Loan</th>
+               <th style="min-width: 300px !important;">Education Rejected Loan</th>
+               <th>LAP Rejected Loan</th>
+               <th style="min-width: 300px !important;">Personal Rejected Loan</th>
+               <th style="min-width: 300px !important;">Home Rejected Loan</th>
+               <th style="min-width: 300px !important;">Car Rejected Loan</th>
+
+               <th>Pending Loans</th>
+
+               <th>CreditCard</th>
+               <th>Total Insurances</th>
+               <th>All Insurance</th>
+               <th>Life Insurance</th>
+               <th>General Insurance</th>
+               <th>Health Insurance</th>
+               <th>Total Disbursment Amount</th>
+
+
+           </tr>
+       </thead>
+
+       <tbody>
+
+        {% for item in objects %}
+         
+        <tr>
+        <td>{{ forloop.counter0|add:start_index }}</td>
+       <td>{{item.registerId}}</td>
+       <td>{{item.totalLoans}}</td>
+       <td>{{item.businesscount}}</td>
+       <td>{{item.educationcount}}</td>
+       <td>{{item.lapcount}}</td>
+       <td>{{item.personalcount}}</td>
+       <td>{{item.homecount}}</td>
+       <td>{{item.carcount}}</td>
+       <td>{{item.goldcount}}</td>
+       <td>{{item.othercount}}</td>
+
+
+       <td>{{item.approvedloans}}</td>
+       <td>{{item.businessapprovedcount}}</td>
+       <td>{{item.educationapprovedcount}}</td>
+       <td>{{item.lapapprovedcount}}</td>
+       <td>{{item.personalapprovedcount}}</td>
+       <td>{{item.homeapprovedcount}}</td>
+       <td>{{item.carapprovedcount}}</td>
+
+       <td>{{item.rejectedLoans}}</td>
+       <td>{{item.businessrejectedcount}}</td>
+       <td>{{item.educationrejectedcount}}</td>
+       <td>{{item.laprejectedcount}}</td>
+       <td>{{item.personalrejectedcount}}</td>
+       <td>{{item.homerejectedcount}}</td>
+       <td>{{item.carrejectedcount}}</td>
+
+       <td>{{item.pendingLoans}}</td>
+       <td>{{item.creditcardtotalloans}}</td>
+       <td>{{item.totalinsurance}}</td>
+       <td>{{item.allinsurance}}</td>
+       <td>{{item.lifeinsurance}}</td>
+       <td>{{item.generalinsurance}}</td>
+       <td>{{item.healthinsurance}}</td>
+       <td style="min-width:250px !important;display: flex;justify-content: center;align-items: center;">₹ {{item.TotaldisbursedAmount}}</td>
+       
+    </tr>
+      
+    {% empty %}
+    <tr>
+        <td colspan="2">No records found</td>
+    </tr>
+       
+         
+       {% endfor %}
+    
+       </tbody>
+
+
+       
+       
+   </table>
+   </div>
+
+
+   <p class="fw-bold totalsum">Total Disbursed Amount: ₹ {{sumofAllTotalDisbursamountdsa}}</p>
+
+
+  
+
+   <!-- Pagination links -->
+   <div class="pagination row">
+    <button type="button" class="btn btn-danger col-3 col-md-2 ms-auto" onclick="showAll()">Show All</button>
+    <div class="col-12 d-flex justify-content-center">
+       
+    <span class="step-links d-flex ms-5">
+        {% if objects.has_previous %}
+        <a href="?page=1" class="page-link fw-bold bg-success text-white text-capitalize me-2 number"> first</a>
+        <a href="?page={{ objects.previous_page_number }}"  class="page-link number">previous</a>
+        {% endif %}
+
+
+        
+        {% if objects.number >= objects.paginator.num_pages|add:'-2' and objects.paginator.num_pages|add:'-2' != 1 and objects.paginator.num_pages >= 3 %}
+        <span class="nav-link fw-bold">...</span>
+        {% endif %}
+
+        
+
+       
+
+        {% for num in objects.paginator.page_range %}
+
+        {% if objects.number == objects.paginator.num_pages and num >=  objects.number|add:'-2' %}
+            
+        <a href="?page={{ num }}" class="nav-link number {{num}} ms-1">{{ num }}</a>
+
+       {% elif num >= objects.number and num <= objects.number|add:'2' and objects.number|add:'2' <= objects.paginator.num_pages   %}
+       <a href="?page={{ num }}" class="nav-link number {{num}} ms-1" >{{ num }}</a>
+            {% if num ==  objects.number|add:'2' and num != objects.paginator.num_pages %}
+            <span class="nav-link fw-bold">...</span>
+                
+            {% endif %}
+       {% elif objects.number|add:'2' > objects.paginator.num_pages and num >= objects.number|add:'-1' and num <= objects.paginator.num_pages %}
+       <a href="?page={{ num }}" class="nav-link number {{num}} ms-1">{{ num }}</a>
+
+       {% endif %}
+{% endfor %}
+
+
+
+
+
+        <!-- <p>{{objects.paginator.num_pages}}</p> -->
+
+       
+
+        {% if objects.has_next %}
+        <a href="?page={{ objects.next_page_number }}"  class="page-link number">next</a>
+        <a href="?page={{ objects.paginator.num_pages }}"  class="page-link number bg-danger text-white fw-bold text-capitalize ms-2">last</a>
+    {% endif %} 
+    </span>
+</div>
+</div>
+
+
+<script class="tableScripteed">
+
+console.log("Url search..");
+        var currentPage={{objects.number}};
+   
+        document.querySelectorAll('.number').forEach((page)=>{
+        
+          
+         var pages= page.classList[2];
+         if(pages==currentPage){
+          // console.log(pages+"Current PAge........");
+           getFref=page.getAttribute('href');
+           console.log(getFref);
+           
+          
+           console.log("fetched");
+          page.classList.add('page-active');
+         }else{
+          page.classList.remove('page-active')
+         }
+       });
+</script>

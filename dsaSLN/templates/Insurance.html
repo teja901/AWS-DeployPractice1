@@ -1,0 +1,60 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block content1 %}
+
+<style>
+    .asterick{
+        color: red;
+    }
+    </style>
+<label for="all-loans" class="form-label fw-bold mt-3">Select Loan Type:</label>
+<select name="all-loans" id="all-loans" class="mb-5 form-select" onchange="triggerUrl(this)">
+    <option value="" selected disabled>Choose Your Loan</option>
+    <option value="{% url 'allInsurance' %}">All Insurance</option>
+    <option value="{% url 'generalInsurance' %}">General Insurance</option>
+    <option value="{% url 'lifeInsurance' %}">Life Insurance</option>
+    <option value="{% url 'healthInsurance' %}">Health Insurance</option>
+    
+
+    <!-- Add more loan types here -->
+</select>
+
+
+<script>
+
+function triggerUrl(e) {
+        window.location.href = e.value;
+    }
+
+</script>
+
+
+<div class="container">
+    <div class="errorOrSucess text-center fw-bold fs-3"></div>
+{% block insurancepages %}{% endblock %}
+</div>
+
+<script>
+
+    document.querySelector('.mobile_number').addEventListener('input', (e) => {
+    
+    const maxLength = 10;
+    const input = e.target;
+    console.log(e.target.id);
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+    if(input.value<0){
+        input.value='';
+    }
+    
+    
+    });
+                </script>
+
+
+
+
+
+
+{% endblock %}

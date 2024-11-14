@@ -1,0 +1,334 @@
+{% extends 'DsaDashboard.html' %}
+
+
+
+{% block content2 %}
+
+<style>
+   .inside-card {
+    position: relative;
+    transition: transform 0.3s ease-in-out;  
+}
+
+.inside-card:hover {
+    transform: translateY(-3px); 
+    cursor: pointer;
+}
+
+
+    
+</style>
+
+<div class="row">
+
+    <div class="col-12 mt-3"> <!--Colum12-->
+    
+        <div class="card shadow"><!--Main Card-->
+    
+    
+    
+            <div class="card-body row gy-2"><!--Card-Body-->
+    
+    
+    
+               <!--Starts 1st card-->
+    
+                <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-success d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Total Applications</p>
+    
+                        <p class="fw-bold">{{totalApplications}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+    
+                
+               <!--Starts 1st card-->
+    
+               
+    
+               
+               <!--Starts 2nd card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-danger d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Business Loan Applications</p>
+    
+                        <p class="fw-bold">{{businessLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 2nd card-->
+    
+    
+    
+                <!--Starts 3rd card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-secondary d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Personal Loan Applications</p>
+    
+                        <p class="fw-bold">{{personalLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 3rd card-->
+    
+    
+                 <!--Starts 4rth card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-black d-flex justify-content-center align-items-center flex-column text-white">
+    
+                         <p class="title fw-bold">Education Loan Applications</p>
+    
+                        <p class="fw-bold">{{EducationLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 4rth card-->
+    
+    
+                 <!--Starts 5th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-secondary d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Home Loan Applications</p>
+    
+                        <p class="fw-bold">{{homeLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 5th card-->
+    
+    
+                 <!--Starts 6th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-success d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">LAP Applications</p>
+    
+                        <p class="fw-bold">{{lapLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 6th card-->
+    
+    
+                 <!--Starts 7th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-danger d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Car Loan Applications</p>
+    
+                        <p class="fw-bold">{{carLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 7th card-->
+    
+    
+    
+                  <!--Starts 8th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-black d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Other Loan Applications</p>
+    
+                        <p class="fw-bold">{{otherLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 8th card-->
+    
+    
+                
+                  <!--Starts 9th card-->
+    
+               <div class="col-md-4 col-12"><!--Inside Col-4-->
+                <div class="card card1 inside-card shadow-lg"><!--Inside Sub MAinCard-->
+    
+    
+                    <div class="card-body bg-info d-flex justify-content-center align-items-center flex-column text-white">
+    
+                        <p class="title fw-bold">Gold Loan Applications</p>
+    
+                        <p class="fw-bold">{{goldLength}}</p>
+                    </div>
+    
+                </div><!--Inside Sub MAinCard-->
+    
+                </div><!--Inside Col-4-->
+    
+                <!--Starts 9th card-->
+    
+    
+               
+    
+    
+    
+    
+            </div><!--Card-Body-->
+    
+        </div><!--Main Card-->
+    
+    </div> <!--Colum12-->
+    
+    </div>
+    
+    
+    
+    <div class="row mt-5">
+    
+        <div class="col-12"> 
+        <div class="card shadow">
+    
+            <div class="card-body row gy-2">
+    
+                <!-- 1st -->
+            <div class="col-12 col-md-4">
+    
+                <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-success">
+                <p class="title fw-bold">Total Insurances</p>
+    
+                <p class="fw-bold">{{Insurances.totalInsurance}}</p>
+                </div>
+    
+            </div>
+            <!-- 1st -->
+    
+    
+                <!-- 2nd -->
+                <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-primary">
+                    <p class="title fw-bold">All Insurances</p>
+        
+                    <p class="fw-bold">{{Insurances.allInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 2nd -->
+    
+    
+                <!-- 3rd -->
+                <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                    <p class="title fw-bold">Life Insurances</p>
+        
+                    <p class="fw-bold">{{Insurances.lifeInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 3rd -->
+    
+    
+                 <!-- 4rth -->
+                 <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-danger">
+                    <p class="title fw-bold">General Insurances</p>
+        
+                    <p class="fw-bold">{{Insurances.generalInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 4rth -->
+    
+    
+                <!-- 5th -->
+                <div class="col-12 col-md-4">
+    
+                    <div class="card-body inside-card shadow-lg d-flex flex-column text-white justify-content-center align-items-center bg-dark">
+                    <p class="title fw-bold">Health Insurances</p>
+        
+                    <p class="fw-bold">{{Insurances.healthInsurance}}</p>
+                    </div>
+        
+                </div>
+                <!-- 5th -->
+    
+    
+    
+    
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5 px-3 mb-5">
+    
+        <div class="card shadow-lg">
+            <div class="card-body">
+            <div class="col-12 bg-success text-white">
+                    <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                        <p class="title fw-bold">Total Credit Cards</p>
+                        <p class="fw-bold">{{creditCard}}</p>
+                    </div>
+              
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
+    
+    
+    

@@ -1,0 +1,261 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block content1 %}
+
+
+<style>
+    label {
+      font-weight: bold;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    .disappearSucessMessage{
+
+        display: none ;
+    }
+    .undisappearSucessMessage{
+        display: block;
+    }
+
+
+    
+   
+  </style>
+  
+
+<div class="container">
+    
+
+
+    <p class="display-6 fw-bold text-center text-warning">Sales Registration Form</p>
+
+
+
+    <div class="alert alert-success text-center disappearSucessMessage" role="alert">
+        Sucessfully Registered...
+      </div>
+    <form action="" id="salesForm" method="post">
+
+        <label for="salename" class="form-label">Name<span class="star text-danger">*</span> :</label>
+      <input
+        type="text"
+        name="name"
+        id="salename"
+        value=""
+        class="form-control"
+        required
+      />
+
+
+
+      <label for="email" class="form-label">Email<span class="star text-danger">*</span> :</label>
+      <div class="input-group has-validation">
+      <input
+        type="email"
+        name="email"
+        id="email"
+        value=""
+        class="form-control"
+        required aria-describedby="validationServerUsernameFeedback"
+      />
+
+      <div id="validationServerUsernameFeedback" class="invalid-feedback">
+        Please provide a valid email.
+      </div>
+
+      </div>
+
+
+
+      <label for="salenumber" class="form-label">Mobile Number<span class="star text-danger">*</span> :</label>
+      <input
+        type="text"
+        name="phone"
+        id="salenumber"
+        value=""
+        class="form-control"
+        pattern="[0-9]{10}"
+        required
+      />
+
+
+
+      <label for="pan" class="form-label">PAN Number<span class="star text-danger">*</span> :</label>
+      <input
+        type="text"
+        name="pan"
+        id="pan"
+        value=""
+        class="form-control text-uppercase"
+        maxlength="10"
+        pattern="^[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}$"
+        
+      />
+
+
+      <label for="aadhar" class="form-label">Aadhar Number<span class="star text-danger">*</span> :</label>
+      <input
+        type="text"
+        name="aadhar"
+        id="aadhar"
+        value=""
+        class="form-control"
+        pattern="[0-9]{12}"
+        
+      />
+
+      <label for="qualification" class="form-label">Qualification<span class="star text-danger">*</span> :</label>
+      <input
+        type="text"
+        name="qualification"
+        id="qualification"
+        value=""
+        class="form-control"
+        required
+        pattern="[a-zA-Z]+"
+      />
+
+
+      <label for="city" class="form-label">City Name<span class="star text-danger">*</span> :</label>
+      <input
+        type="text"
+        name="city"
+        id="city"
+        value=""
+        class="form-control"
+        required
+        pattern="[a-zA-Z]+"
+      />
+
+
+
+      <button type="submit" class="btn btn-primary my-4">Submit</button>
+
+
+
+
+
+
+    </form>
+
+</div>
+
+
+<script>
+
+
+$("#salesForm").on("submit", async (e) => {
+    let sucessMessage=document.querySelector('.alert-success');
+    e.preventDefault();
+      const regexCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
+  
+      const email = $("#email").val();
+  
+      if (!regexCheck.test(email)) {
+        document.getElementById("email").classList.add("is-invalid");
+        return false;
+      } else {
+
+        const url="{{hrUrl}}";
+        console.log(url);
+        const form=document.getElementById('salesForm');
+        const formData=new FormData(form);
+        let pan =document.getElementById('pan').value;
+        formData.append('pan',pan.toUpperCase());
+
+        formData.append('franchiseCode',"{{request.session.franchCode}}");
+        await fetch(`${url}/api/sales/`,{
+            method:'POST',
+            body:formData,
+        }).then((res)=>{
+            if (res.status===200 || res.status===201){
+                console.log("Sucess");
+
+                sucessMessage.classList.remove('disappearSucessMessage');
+        
+        setTimeout(() => {
+            sucessMessage.classList.add('disappearSucessMessage');
+            form.reset();
+        }, 2000);
+
+            }
+            else{
+
+                console.log("not Sucess");
+            }
+        })
+        document.getElementById("email").classList.remove("is-invalid");
+      }
+    });
+  
+    $("#salenumber").on("input", (e) => {
+      let { value } = e.target;
+      const maxLength = 10;
+      const regexCheck = /[^0-9]/g;
+  
+      value = value.replace(regexCheck, "");
+  
+      if (value.length > maxLength) {
+        value = value.slice(0, maxLength);
+      }
+  
+      e.target.value = value;
+    });
+
+    $("#aadhar").on("input", (e) => {
+      let { value } = e.target;
+      const maxLength = 12;
+      const regexCheck = /[^0-9]/g;
+  
+      value = value.replace(regexCheck, "");
+  
+      if (value.length > maxLength) {
+        value = value.slice(0, maxLength);
+      }
+  
+      e.target.value = value;
+    });
+
+
+
+
+$('#pan').on('input',(e)=>{
+
+    console.log(e.target.value)
+    let {value}=e.target;
+    if(value.length<=5){
+    
+    value=value.slice(0,5)
+   value= value.replace(/[^A-Za-z]/,'');
+   console.log(value);
+   e.target.value=value;
+}
+
+
+
+ if(value.length===10){
+    
+    let firstpart=value.slice(0,9)
+    let secondpart=value.slice(value.length-1)
+    secondpart=secondpart.replace(/[^A-Za-z]/,'');
+    console.log(firstpart)
+    console.log(firstpart+secondpart)
+    e.target.value=firstpart+secondpart;
+    
+}
+ else if(value.length>5 && value.length<10){
+    
+    let first=value.slice(0,5)
+    let second=value.slice(5,10)
+    second=second.replace(/[^0-9]/,'');
+    console.log(first+second);
+    e.target.value=first+second;
+    
+}
+
+    });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,594 @@
+
+
+{% extends template %}
+
+
+
+
+
+
+{% block Extrascripts %}
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Check if the URL has query parameters
+  
+  const verify={{isTrue}};
+  console.log(verify);
+  console.log("kkkkkkk1");
+
+  if(verify){
+  if (window.location.search.length > 0) {
+      // Use history.replaceState to remove the query parameters
+      const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      
+      // Update the URL without reloading the page
+      window.history.replaceState({path: newUrl}, '', newUrl);
+  }
+}
+</script>
+
+
+{% endblock %}
+
+{% block content1 %}
+
+
+
+<style>
+
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
+
+
+    .card .filter .right {
+        transition: 0.3s linear;
+      }
+    
+      .card .filter a[aria-expanded="true"] .right {
+        transform: rotate(90deg);
+      }
+    
+      @keyframes hueAnimation {
+        from {
+          filter: hue-rotate(0deg);
+        }
+        to {
+          filter: hue-rotate(360deg);
+        }
+      }
+    
+      .animated-text {
+        /* font-size: 24px; */
+        font-weight: bold;
+        animation: hueAnimation 5s infinite linear;
+      }
+    
+    
+    </style>
+    
+    
+        
+    <div class="container mt-5">
+        <div class="card shadow-lg bg-dark mb-5">
+          <div class="card-body filter">
+            <p class="d-inline-flex gap-1 w-100">
+              <a
+                class="nav-link w-100 d-flex align-items-center"
+                data-bs-toggle="collapse"
+                href="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <span class="animated-text">
+                  <i class="bi bi-search fs-4 px-3"></i
+                ></span>
+      
+                <span class="fs-4 text-white">Filter the Records</span>
+      
+                <span class="ms-auto right text-white"
+                  ><i class="bi bi-chevron-right right-icon"></i
+                ></span>
+              </a>
+      
+              <!-- <i class="bi bi-chevron-right"></i> -->
+            </p>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body bg-dark">
+               
+      
+                    <form id="filter-form" method="post"><!--Form---->
+                        {% csrf_token %}
+
+             <div class="row"><!------------------Row--------------->
+                  <div class="col-12 mb-4">
+                    <label
+                      for="all-loans"
+                      class="form-label fw-bold  text-white text-capitalize"
+                      >Select Loan Type :</label>
+                    <select  id="all-loans" class="form-select" name="loantype" required>
+                      <option value="" selected disabled>Choose Your Loan</option>
+                      <option value="All">ALL</option>
+                      <option value="Personal">Personal Loan</option>
+                      <option value="Business">Business Loan</option>
+      
+                      <option value="Education">Education Loan</option>
+      
+                      <option value="Home">Home Loan</option>
+      
+                      <!-- <option value="Credit">Credit Card Loan</option> -->
+      
+                      <option value="Car">Car Loan</option>
+      
+                      <option value="LAP">LAP</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12 mb-4">
+                    <label
+                      for="all-loans"
+                      class="form-label fw-bold  text-white text-capitalize"
+                      >Select Loan Status :</label>
+                    <select  id="all-loans" class="form-select" name="loanstatus" required>
+                      <option value="" selected disabled>Choose Your Status</option>
+                      <option value="All">ALL</option>
+                      <option value="Approved">Approved</option>
+                      <option value="Rejected">Rejected</option>
+      
+                      <option value="Pending">Pending</option>
+      
+                      <option value="Disbursed">Disbursed</option>
+      
+                      <!-- <option value="Credit">Credit Card Loan</option>
+      
+                      <option value="Car">Car Loan</option>
+      
+                      <option value="LAP">LAP</option> -->
+                    </select>
+                  </div>
+
+
+                  <div class="col-6 mb-4">
+                    <label
+                    for="loansteps"
+                    class="form-label fw-bold  text-white text-capitalize"
+                    >Select loan steps :</label>
+                    <select name="loansteps" id="loansteps" class="form-select">
+                      <option value="" selected disabled>Choose Your Loan steps</option>
+                      <option value="Uploaddocuments">Upload Documents</option>
+                      <option value="Notuploaddocuments">Not Uplod Documents</option>
+                    </select>
+                  </div>
+             
+                  <div class="col-6 mb-4">
+                      <label
+                      for="daterange"
+                      class="form-label fw-bold  text-white text-capitalize"
+                      >Select Date :</label>
+                  <input type="text" name="date" id="daterange" class="form-control w-100" placeholder="Please Select Your Date Range.."/>
+              
+                 
+                  </div><!--col-6-->
+
+
+                  <div class="col-12 w-100"><!--col-12-->
+
+                    <button class="btn btn-primary text-white ms-auto">Search</button>
+
+                  </div><!--col-12-->
+                 
+                </div><!--Row-->
+                  </form>
+      
+               
+
+               
+      
+      
+              </div>
+            </div>
+          </div>
+        </div><!-- MAinCard1-->
+    
+        
+    <script>
+
+
+const form=document.getElementById('filter-form');
+form.action=window.location.pathname;
+
+// if (document.getElementById('daterange').value==''){
+
+//     document.getElementById('daterange').value="0000-00-00 to 0000-00-00";
+// }
+
+            
+        $(document).ready(function () {
+            $('#daterange').daterangepicker({
+                applyButtonClasses: 'btn btn-primary',
+                cancelButtonClasses: 'btn btn-danger',
+                opens: 'right',
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    separator: ' to ', 
+                    cancelLabel: 'Cancel',  
+                    applyLabel: 'OK'
+                    
+                },
+        
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                autoUpdateInput: false,  // Prevent automatic update of the input with the selected date
+                showDropdowns: true,     // Show dropdowns for year and month selection
+                showWeekNumbers: true,   // Show week numbers in the calendar
+                autoApply: false,        // Require users to click Apply/OK to confirm the selection
+            }, function (start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            });
+        
+            // Event listener for Apply (OK) button
+            $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                console.log("Apply clicked: " + $(this).val());
+            });
+        
+            // Event listener for Cancel button
+            $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');  // Clear the input field on cancel
+                console.log("Cancel clicked: Input cleared");
+            });
+        
+            // Event listener for any change in the Date Range Picker
+            $('#daterange').on('apply.daterangepicker change', function() {
+                console.log("Input value changed to: " + this.value);
+            });
+        });
+    
+        </script>
+    <!-- your_template.html -->
+
+    <style>
+
+        .table-responsive::-webkit-scrollbar{
+            display: none;
+            overflow-x: auto !important;
+        }
+       
+        
+        .table-responsive th{
+            min-width: 200px !important;
+        }
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+    
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+/* body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #efa94a;
+  overflow: hidden;
+} */
+.input-box {
+  position: relative;
+  width: 100%;
+  max-width: 60px;
+  height: 40px;
+  margin: 0 50px;
+  background-color: #fff;
+  border-radius: 6px;
+  transition: all 0.5s ease-in-out;
+}
+.input-box.open {
+  max-width: 350px;
+}
+.input-box input {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  padding: 0 15px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.5s ease-in-out;
+}
+.input-box.open input {
+  padding: 0 15px 0 65px;
+}
+
+.input-box .search {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.input-box.open .search {
+  border-radius: 6px 0 0 6px;
+}
+.search .search-icon {
+  font-size: 30px;
+  color: #1c1c1c;
+}
+.input-box .close-icon {
+  position: absolute;
+  top: 50%;
+  right: -45px;
+  font-size: 30px;
+  color: #1c1c1c;
+  padding: 5px;
+  transform: translateY(-50%);
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+}
+.input-box.open .close-icon {
+  transform: translateY(-50%) rotate(180deg);
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.page-active{
+
+    background-color: rgb(61, 61, 242);
+    color: white !important;
+}
+
+.number:hover{
+  background-color: rgb(61, 61, 242);
+  color: white !important;
+}
+
+    </style>
+<!-- 
+<div class="row">
+<div class="input-box">
+  <input type="text" placeholder="Search..." />
+  <span class="search">
+    <i class="uil uil-search search-icon"></i>
+  </span>
+  <i class="uil uil-times close-icon"></i>
+</div>
+</div> -->
+
+
+    <!-------------------------------- Search Input start---------------------------------- -->
+    <div class="row mb-2">
+
+      <form action="" id="search-form" method="post">
+      <div class="col-12 w-100 d-flex">
+      <div class="input-box ms-auto shadow">
+        <input type="text" placeholder="Search By Application Id..." name="applicationid1" class="applicationValue" required/>
+        <span class="search">
+          <i class="uil uil-search search-icon"></i>
+        </span>
+        <i class="uil uil-times close-icon"></i>
+        
+      </div>
+     
+      <button type="submit" class="btn btn-primary search-button btn-sm" id="serachButton" style="width: 0;opacity: 0;transition:.5s linear;">Search</button>
+    </div>
+  </form>
+      </div>
+      </div>
+      
+      
+<script>
+
+  // ---- ---- Const ---- ---- //
+  const form1=document.getElementById('search-form');
+  form1.action=window.location.pathname;
+
+
+let inputBox = document.querySelector('.input-box'),
+  searchIcon = document.querySelector('.search'),
+  closeIcon = document.querySelector('.close-icon');
+
+// ---- ---- Open Input ---- ---- //
+searchIcon.addEventListener('click', () => {
+  inputBox.classList.add('open');
+  document.querySelector('.search-button').style.opacity=1;
+  document.querySelector('.search-button').style.width='80px';
+});
+// ---- ---- Close Input ---- ---- //
+closeIcon.addEventListener('click', () => {
+  inputBox.classList.remove('open');
+  document.querySelector('.search-button').style.opacity=0;
+  document.querySelector('.search-button').style.width='0px';
+});
+
+</script>
+    <h1>{{title}}</h1>
+
+    {% include 'DataTable.html' %}
+
+    <script>
+
+
+document.querySelector('#serachButton').addEventListener('click', searchTrigger);
+        
+        
+        function searchTrigger(e) {
+            e.preventDefault(); // Prevent the default form submission
+            
+            var searchForm = document.querySelector('#search-form');
+            var location = window.location.href;
+            var formData = new FormData(searchForm);
+            console.log("serach clicked..")
+            var inpyvalue=document.querySelector('.applicationValue').value;
+
+            if(inpyvalue!=''){
+            fetch(location, {
+                method: 'POST',
+                body: formData,
+                // headers: {
+                //     'X-Requested-With': 'XMLHttpRequest',
+                //     'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                // }
+            })
+            .then(response => response.text())
+            .then(data => {
+                var parser1 = new DOMParser();
+                var doc1 = parser1.parseFromString(data, 'text/html');
+                
+                document.querySelector('#myTable').innerHTML = doc1.querySelector('#myTable').innerHTML;
+                document.querySelector('.pagination').innerHTML = doc1.querySelector('.pagination').innerHTML;
+
+
+                if(document.querySelectorAll('.tablescripts')){
+                  document.querySelectorAll('.tablescripts').forEach((scrpt)=>{
+
+                    scrpt.remove();
+                  });
+                }
+                  var scriptTags1 = doc1.querySelectorAll('script');
+                    scriptTags1.forEach(function(scriptTag) {
+
+                        var newScript1 = document.createElement('script');
+                        newScript1.className='tablescripts'
+                        if (scriptTag.src) {
+                            newScript1.src = scriptTag.src;
+                        } 
+                
+                            newScript1.innerHTML = scriptTag.innerHTML;
+                        
+                        document.body.appendChild(newScript1);
+                    });
+
+
+        
+                // Re-attach event listeners for the new pagination links
+                document.querySelectorAll('.number').forEach(function (newLink) {
+                    newLink.addEventListener('click', linkEventHandler);
+                });
+            });
+        }
+      }
+
+
+
+            document.querySelectorAll('.number').forEach(function(link) {
+                  link.addEventListener('click', linkEventHandler);
+              });
+
+              function linkEventHandler(event) {
+              event.preventDefault();
+              var url = this.getAttribute('href');
+              var loacation=window.location.href;
+              console.log(`${loacation}${url}`);
+      
+              fetch(`${loacation}${url}`, {
+                      headers: {
+                          'X-Requested-With': 'XMLHttpRequest'
+                      }
+                  })
+                  .then(response => response.text())
+                  .then(data => {
+                      // Create a temporary DOM element to parse the response
+                      var parser = new DOMParser();
+                      var doc = parser.parseFromString(data, 'text/html');
+      
+                      // Replace the table content
+                      document.querySelector('#myTable').innerHTML = doc.querySelector('#myTable').innerHTML;
+      
+                      // Replace the pagination links
+                      document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+      
+
+                    
+                    if(document.querySelectorAll('.tablescripts')){
+                      document.querySelectorAll('.tablescripts').forEach((scrpt)=>{
+
+                        scrpt.remove();
+                      });
+                    }
+                      var scriptTags = doc.querySelectorAll('script');
+                        scriptTags.forEach(function(scriptTag) {
+
+                            var newScript = document.createElement('script');
+                            newScript.className='tablescripts'
+                            if (scriptTag.src) {
+                                newScript.src = scriptTag.src;
+                            } 
+                    
+                                newScript.innerHTML = scriptTag.innerHTML;
+                            
+                            document.body.appendChild(newScript);
+                        });
+
+
+                     
+                      // Re-attach the event listeners to the new pagination links
+                      document.querySelectorAll('.number').forEach(function(newLink) {
+                          newLink.addEventListener('click', linkEventHandler);
+                      });
+                  });
+
+
+          }
+           
+          
+               </script>
+
+               <script id="tableData">
+
+
+               </script>
+
+
+
+    {% if showgraph %}
+
+    {% include 'AllLOansGraph.html' %}
+        
+    {% endif %}
+
+
+{% endblock %}

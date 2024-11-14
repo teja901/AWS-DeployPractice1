@@ -1,0 +1,446 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block Extrascripts %}
+
+<!-- <link
+rel="stylesheet"
+href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+/> -->
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    
+<!-- Moment.js -->
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+<!-- Date Range Picker CSS -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+/>
+
+<!-- Date Range Picker JS -->
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+{% endblock %}
+
+
+
+{% block content1 %}
+
+<style>
+
+/* .table-responsive::-webkit-scrollbar{
+            display: none;
+            overflow-x: auto !important;
+        } */
+
+       
+       
+        
+        .table-responsive th{
+            min-width: 200px !important;
+        }
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+/* body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #efa94a;
+  overflow: hidden;
+} */
+.input-box {
+  position: relative;
+  width: 100%;
+  max-width: 60px;
+  height: 40px;
+  margin: 0 50px;
+  background-color: #fff;
+  border-radius: 6px;
+  transition: all 0.5s ease-in-out;
+}
+.input-box.open {
+  max-width: 350px;
+}
+.input-box input {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  padding: 0 15px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.5s ease-in-out;
+}
+.input-box.open input {
+  padding: 0 15px 0 65px;
+}
+
+.input-box .search {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.input-box.open .search {
+  border-radius: 6px 0 0 6px;
+}
+.search .search-icon {
+  font-size: 30px;
+  color: #1c1c1c;
+}
+.input-box .close-icon {
+  position: absolute;
+  top: 50%;
+  right: -45px;
+  font-size: 30px;
+  color: #1c1c1c;
+  padding: 5px;
+  transform: translateY(-50%);
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+}
+.input-box.open .close-icon {
+  transform: translateY(-50%) rotate(180deg);
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.page-active{
+
+background-color: rgb(61, 61, 242);
+color: white !important;
+}
+
+.number:hover{
+background-color: rgb(61, 61, 242);
+color: white !important;
+}
+
+
+
+</style>
+
+
+
+<div class="row mt-5 gy-4">
+
+    
+    <!-- <div class="col-12 col-md-6 d-flex">
+      <form action="" id="search-form" method="post">
+    <div class="input-box  shadow">
+      <input type="text" placeholder="Search By Application Id..." name="applicationid" class="applicationValue" required/>
+      <span class="search">
+        <i class="uil uil-search search-icon"></i>
+      </span>
+      <i class="uil uil-times close-icon"></i>
+      
+    </div>
+   
+    <button type="submit" class="btn btn-primary search-button btn-sm" id="serachButton" style="width: 0;opacity: 0;transition:.5s linear;">Search</button>
+  </form>
+  </div> -->
+
+
+  <div class="col-md-6 col-12">
+    <form class="d-flex px-3" method="post" id="search-form">
+        {% csrf_token %}
+<input class="form-control me-2 applicationValue" name="applicationid" type="search" placeholder="Search By Id.." aria-label="Search">
+<button class="btn btn-outline-primary" type="submit" id="serachButton">Search</button>
+</form>
+</div>
+
+  <div class="col-md-6 col-12">
+    <form class="d-flex px-3" method="post" id="serachForm2">
+        {% csrf_token %}
+ <input type="text" name="date" id="daterange" class="form-control w-100 me-2 dateValue" placeholder="Please Select Your Date Range.."/>
+<button class="btn btn-outline-primary" type="submit" id="serachButton2">Search</button>
+</form>
+</div>
+    </div>
+
+
+    <script>
+
+      $(document).ready(function () {
+                  $('#daterange').daterangepicker({
+                      applyButtonClasses: 'btn btn-primary',
+                      cancelButtonClasses: 'btn btn-danger',
+                      opens: 'right',
+                      locale: {
+                          format: 'YYYY-MM-DD',
+                          separator: ' to ', 
+                          cancelLabel: 'Cancel',  
+                          applyLabel: 'OK'
+                          
+                      },
+              
+                      ranges: {
+                          'Today': [moment(), moment()],
+                          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                          'This Month': [moment().startOf('month'), moment().endOf('month')],
+                          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                      },
+                      autoUpdateInput: false,  // Prevent automatic update of the input with the selected date
+                      showDropdowns: true,     // Show dropdowns for year and month selection
+                      showWeekNumbers: true,   // Show week numbers in the calendar
+                      autoApply: false,        // Require users to click Apply/OK to confirm the selection
+                  }, function (start, end, label) {
+                      console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                  });
+              
+                  // Event listener for Apply (OK) button
+                  $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+                      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+                      console.log("Apply clicked: " + $(this).val());
+                  });
+              
+                  // Event listener for Cancel button
+                  $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+                      $(this).val('');  // Clear the input field on cancel
+                      console.log("Cancel clicked: Input cleared");
+                  });
+              
+                  // Event listener for any change in the Date Range Picker
+                  $('#daterange').on('apply.daterangepicker change', function() {
+                      console.log("Input value changed to: " + this.value);
+                  });
+              });
+          
+      </script>
+      
+    
+
+
+    <script>
+document.querySelector('#serachButton2').addEventListener('click', searchTrigger2);
+sertriger();
+
+function sertriger() {
+    document
+      .querySelector("#serachButton")
+      .addEventListener("click", searchTrigger);
+  }
+
+  function searchTrigger2(e) {
+            e.preventDefault(); 
+            const date=document.getElementById('daterange').value;
+            console.log(date);
+            
+            const searchForm = document.querySelector('#serachForm2');
+            const location = window.location.href;
+            const formData = new FormData(searchForm);
+            console.log("serach clicked..");
+            var inpyvalue=document.querySelector('.dateValue').value;
+
+            if(inpyvalue!=''){
+            fetch(`${location}?date=${date}`, {
+                method: 'POST',
+                body: formData,
+               
+            })
+            .then(response => response.text())
+            .then(data => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'text/html');
+
+                common(doc);
+                
+                // document.querySelector('#myTable tbody').innerHTML = doc.querySelector('#myTable tbody').innerHTML;
+                // document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+                // document.querySelector('.pagesnumber').innerHTML=doc.querySelector('.pagesnumber').innerHTML;
+
+
+
+                // if(document.querySelectorAll('.tablescripts')){
+                //   document.querySelectorAll('.tablescripts').forEach((scrpt)=>{
+
+                //     scrpt.remove();
+                //   });
+                // }
+                  // var scriptTags = doc.querySelectorAll('script');
+                  //   scriptTags.forEach(function(scriptTag) {
+
+                  //       var newScript = document.createElement('script');
+                  //       newScript.className='tablescripts'
+                  //       if (scriptTag.src) {
+                  //           newScript.src = scriptTag.src;
+                  //       } 
+                
+                  //           newScript.innerHTML = scriptTag.innerHTML;
+                        
+                  //       document.body.appendChild(newScript);
+                  //   });
+
+                // document.querySelectorAll('.number').forEach(function (newLink) {
+                //     newLink.addEventListener('click', linkEventHandler);
+                // });
+            });
+        }
+        
+            
+        }
+
+
+  async function searchTrigger(e) {
+    e.preventDefault();
+    if (document.querySelector(".applicationValue").value != "") {
+      console.log(document.querySelector(".applicationValue").value);
+      const valueData = document.querySelector(".applicationValue").value;
+      const location = window.location.href;
+      console.log(`${location}?applicationid=${valueData}`);
+      const resonse = await fetch(`${location}?applicationid=${valueData}`);
+      const data = await resonse.text();
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, "text/html");
+
+      common(doc);
+    }
+  }
+
+        // ---- ---- Const ---- ---- //
+        const form1=document.getElementById('search-form');
+        form1.action=window.location.pathname;
+      
+      
+      let inputBox = document.querySelector('.input-box'),
+        searchIcon = document.querySelector('.search'),
+        closeIcon = document.querySelector('.close-icon');
+      
+      // ---- ---- Open Input ---- ---- //
+      searchIcon.addEventListener('click', () => {
+        inputBox.classList.add('open');
+        document.querySelector('.search-button').style.opacity=1;
+        document.querySelector('.search-button').style.width='80px';
+      });
+      // ---- ---- Close Input ---- ---- //
+      closeIcon.addEventListener('click', () => {
+        inputBox.classList.remove('open');
+        document.querySelector('.search-button').style.opacity=0;
+        document.querySelector('.search-button').style.width='0px';
+      
+      
+      });
+      
+      </script>
+
+
+{% include 'DsaDataTable.html' %}
+
+
+
+<script>
+
+
+async function showAll(e){
+  console.log("clicked..")
+  const url=window.location.href;
+  const promise=await fetch(`${url}?showall=show`);
+  const result=await promise.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(result, "text/html");
+  common(doc);
+
+}
+
+numberPaginator();
+
+function numberPaginator(){
+    document.querySelectorAll('.number').forEach(function(link) {
+            link.addEventListener('click', linkEventHandler);
+        });
+}
+
+async function linkEventHandler(e){
+
+
+    e.preventDefault();
+
+    const href = this.getAttribute("href");
+    const location = window.location.href;
+
+    const response = await fetch(`${location}${href}`);
+
+    const data = await response.text();
+    // console.log(data);
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data, "text/html");
+
+    common(doc);
+}
+
+
+function common(doc) {
+    
+    document.querySelector("#myTable").innerHTML =
+      doc.querySelector("#myTable").innerHTML;
+
+    document.querySelector(".pagination").innerHTML =
+      doc.querySelector(".pagination").innerHTML;
+
+    document.querySelector('.totalsum').innerHTML=doc.querySelector(".totalsum").innerHTML;
+
+
+    if (document.querySelectorAll(".tablescripts")) {
+      document.querySelectorAll(".tablescripts").forEach((scrpt) => {
+        scrpt.remove();
+      });
+    }
+    var scriptTags = doc.querySelectorAll(".tableScripteed");
+    scriptTags.forEach(function (scriptTag) {
+      var newScript = document.createElement("script");
+      newScript.className = "tablescripts";
+      if (scriptTag.src) {
+        newScript.src = scriptTag.src;
+      }
+
+      newScript.innerHTML = scriptTag.innerHTML;
+
+      document.body.appendChild(newScript);
+    });
+
+    numberPaginator();
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

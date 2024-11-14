@@ -1,0 +1,46 @@
+<!-- templates/chat.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+    
+    <form action="" id="form">
+
+        <input type="text" name="message" id="">
+    </form>
+
+    <div id="messages"></div>
+
+    <script>
+        const chatSocket = new WebSocket(
+            `ws://${window.location.host}/ws/chat/`
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            let messages=document.getElementById('messages')
+            messages.insertAdjacentHTML('beforeend',`<div>
+                <p>${data.message}</p>
+                </div>`)
+           
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+       
+       let form=document.getElementById('form');
+       form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let message=e.target.message.value
+        chatSocket.send(JSON.stringify({
+            'message':message
+        }))
+        form.reset()
+
+       })
+    </script>
+</body>
+</html>

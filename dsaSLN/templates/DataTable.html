@@ -1,0 +1,116 @@
+
+<!-- <h1>Data TAble</h1> -->
+
+<body>
+    
+<div class="table-responsive"><!--row-->
+    <table class="table" id="myTable">
+       <thead>
+           <tr>
+               <th>Sno</th>
+               <th>Application Id</th>
+               <th>Name</th>
+               <th>Loan Type</th>
+               <th>Loan Amount</th>
+           </tr>
+       </thead>
+       <tbody>
+           {% for obj in objects %}
+               <tr>
+                   <!-- Display serial number -->
+                   <td>{{ forloop.counter0|add:start_index }}</td>
+                   <td>{{ obj.application_id }}</td>
+                   <td>{{ obj.name }}</td>
+                   <td>{{obj.application_loan_type}}</td>
+                   <td>{{obj.required_loan_amount}}</td>
+               </tr>
+               {% empty %}
+               <tr>
+                   <td colspan="2">No records found</td>
+               </tr>
+           {% endfor %}
+       </tbody>
+   </table>
+   </div>
+
+
+   
+   
+   <!-- Pagination links -->
+   <div class="pagination row">
+       <div class="col-12 d-flex justify-content-center">
+       <span class="step-links d-flex ms-5">
+           {% if objects.has_previous %}
+           <a href="?page=1" class="page-link fw-bold bg-success text-white text-capitalize me-2 number"> first</a>
+           <a href="?page={{ objects.previous_page_number }}"  class="page-link number">previous</a>
+           {% endif %}
+   
+   
+           
+           {% if objects.number >= objects.paginator.num_pages|add:'-2' and objects.paginator.num_pages|add:'-2' != 1 and objects.paginator.num_pages >= 3 %}
+           <span class="nav-link fw-bold">...</span>
+           {% endif %}
+   
+           
+   
+          
+   
+           {% for num in objects.paginator.page_range %}
+   
+           {% if objects.number == objects.paginator.num_pages and num >=  objects.number|add:'-2' %}
+               
+           <a href="?page={{ num }}" class="nav-link number {{num}} ms-1">{{ num }}</a>
+   
+          {% elif num >= objects.number and num <= objects.number|add:'2' and objects.number|add:'2' <= objects.paginator.num_pages   %}
+          <a href="?page={{ num }}" class="nav-link number {{num}} ms-1" >{{ num }}</a>
+               {% if num ==  objects.number|add:'2' and num != objects.paginator.num_pages %}
+               <span class="nav-link fw-bold">...</span>
+                   
+               {% endif %}
+          {% elif objects.number|add:'2' > objects.paginator.num_pages and num >= objects.number|add:'-1' and num <= objects.paginator.num_pages %}
+          <a href="?page={{ num }}" class="nav-link number {{num}} ms-1">{{ num }}</a>
+   
+          {% endif %}
+   {% endfor %}
+   
+   
+   
+   
+   
+           <!-- <p>{{objects.paginator.num_pages}}</p> -->
+   
+          
+   
+           {% if objects.has_next %}
+           <a href="?page={{ objects.next_page_number }}"  class="page-link number">next</a>
+           <a href="?page={{ objects.paginator.num_pages }}"  class="page-link number bg-danger text-white fw-bold text-capitalize ms-2">last</a>
+       {% endif %} 
+       </span>
+   </div>
+   </div>
+
+
+   <script class="tableScripteed">
+
+console.log("Url search..");
+           var currentPage={{objects.number}};
+      
+           document.querySelectorAll('.number').forEach((page)=>{
+           
+             
+            var pages= page.classList[2];
+            if(pages==currentPage){
+             // console.log(pages+"Current PAge........");
+              getFref=page.getAttribute('href');
+              console.log(getFref);
+              // console.log(`http://127.0.0.1:8001/dsa/approved${getFref}`);
+             
+              console.log("fetched");
+             page.classList.add('page-active');
+            }else{
+             page.classList.remove('page-active')
+            }
+          });
+   </script>
+
+   </body>

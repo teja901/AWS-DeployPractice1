@@ -1,0 +1,222 @@
+{% extends 'DsaDashboard.html' %}
+
+{% block content1 %}
+
+<style>
+    iframe {
+        width: 100%;
+        height: 100vh;
+    }
+</style>
+
+<!-- <h1>Hi</h1> -->
+
+
+<label for="all-loans" class="form-label fw-bold mt-3">Select Loan Type:</label>
+<select name="all-loans" id="all-loans" class="mb-5 form-select" onchange="triggerUrl(this)">
+    <option value="" selected disabled>Choose Your Loan</option>
+    <option value="{% url 'apply-business' %}">Business Loan</option>
+    <option value="{% url 'applyEducation' %}">Education Loan</option>
+    <option value="{% url 'apply-home' %}">Home Loan</option>
+
+    <option value="{% url 'applyCar' %}">Car Loan</option>
+    <option value="{% url 'applyGold' %}">Gold Loan</option>
+    <option value="{% url 'apply-personal' %}">Personal Loan</option>
+
+    <option value="{% url 'applyotherLoan' %}">Other Loan</option>
+    <option value="{% url 'lap' %}">LAP</option>
+
+
+
+
+
+
+
+    <!-- Add more loan types here -->
+</select>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger col-6 ms-auto mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Upload Missed Documents &#x2192;
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Documents</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="" id="docupload">
+                <div class="modal-body">
+
+                   
+
+                    <input type="text" name="" id="appId" placeholder="Enter Application id" class="form-control mb-3"
+                        required>
+
+                        <select name="" id="selectuu-loan" class="mb-3 form-select" required>
+                            <option disabled selected value="">choose your loan</option>
+                            <option value="{{sourceUrl}}/bl/document?id=">Business Loan</option>
+                            <option value="{{sourceUrl}}/el/create-Doc?id=">Education Loan</option>
+                            <option value="{{sourceUrl}}/pl/homedoc/">Home Loan</option>
+                            <option value="{{sourceUrl}}/pl/personaldoc/">Personal Loan</option>
+                            <option value="{{sourceUrl}}/cl/document?id=">Car Loan</option>
+                            <option value="{{sourceUrl}}/lapdoc/">LAP </option>
+                            <option value="{{sourceUrl}}/cc/document_add/">Credit Card </option>
+    
+                        </select>
+    
+
+                </div><!--Modal body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="savechanges">Save changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        // $('#savechanges').click(function() {
+        //     console.log("jju89query");
+        //     // Use Bootstrap's modal API to hide the modal
+        //     $('#exampleModal').modal('hide');
+        // });
+
+        var isverify = false;
+        document.getElementById('savechanges').disabled = true;
+
+        document.querySelector('#appId').addEventListener('change', function () {
+
+            fetch('{{currentUrl}}/franchise/jsondatadsa').
+                then(data => data.json()).
+                then(res => {
+
+                    console.log(res)
+
+                    for (let i = 0; i < res.length; i++) {
+                        const element = res[i];
+
+                        if (element.cust_applicationId === this.value) {
+                            isverify = true;
+                            console.log("true if");
+                            document.getElementById('savechanges').disabled = false;
+                            break; // Exit the loop when condition is true
+                        } else {
+                            isverify = false;
+                            console.log("false if");
+                            document.getElementById('savechanges').disabled = true;
+                        }
+                    }
+
+
+                }).catch(error => {
+        console.error('Error fetching data:', error);
+       
+    });
+
+
+
+
+
+        });
+
+
+        document.querySelector('#docupload').addEventListener('submit', (e) => {
+
+            e.preventDefault();
+            const loan = document.getElementById('selectuu-loan').value;
+            const id = document.getElementById('appId').value;
+            $('#exampleModal').modal('hide');
+            let iframchange = document.getElementById('myIframe');
+            console.log(`${loan}${id}`)
+            iframchange.src = `${loan}${id}`;
+
+
+        });
+
+
+    });
+
+
+
+</script>
+
+<script>
+    // localStorage.removeItem('iframeUrl', event.data);
+
+
+    function triggerUrl(e) {
+        window.location.href = e.value;
+    }
+
+   
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var iframe = document.getElementById('myIframe');
+        var initialSrc = iframe.src;
+        console.log(initialSrc + " 00009");
+        console.log("trreew42442424..//")
+
+
+       
+
+        
+
+
+
+       
+
+        if (iframe) {
+
+            
+           
+
+            iframe.onload = function () {
+                console.log("Iframe Loaded");
+
+                
+                // Extract the origin from the URL (assuming {{ url }} contains the full URL)
+                var iframeOrigin = new URL('{{ url }}').origin;
+
+                console.log("Iframe Origin:", iframeOrigin);
+
+
+                iframe.contentWindow.postMessage('Apply custom styles', iframeOrigin);
+
+                console.log("Message Sent to Iframe");
+            };
+        } else {
+            console.log("Iframe not found");
+        }
+
+        function receiveMessage(event) {
+
+            console.log('Received URL from iframe:', event.data);
+            localStorage.setItem('iframeUrl', event.data);
+
+            // ifUrl= localStorage.getItem('iframeUrl');
+
+        }
+
+        window.addEventListener('message', receiveMessage, false);
+
+
+    });
+
+
+</script>
+
+<!-- <p>{{ url }}?refCode={{dsaId}}&franrefCode=SLNFR1005</p> -->
+<iframe src="{{ url }}?franrefCode={{request.session.franchCode}}" frameborder="0" class="iframe" id="myIframe"></iframe>
+
+{% endblock %}

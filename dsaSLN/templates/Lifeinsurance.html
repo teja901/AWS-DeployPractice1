@@ -1,0 +1,128 @@
+{% extends 'Insurance.html' %}
+
+
+{% block insurancepages %}
+<!-- <div class="errorOrSucess text-center fw-bold fs-3"></div> -->
+
+<div class="card p-4 mt-2" style=" background-color: rgb(36, 148, 168); color: white; border-radius: 10px">
+    <div class="card-body">
+        <h3 class="card-title">We provide the best value Life Insurance</h3>
+        <p class="card-text">
+            Simple steps you can take to improve your financial well-being for
+            the rest of your life.
+        </p>
+        <form method="post" id="form">
+            {% csrf_token %}
+            <input type="hidden" name="insurance_name" value="Life Insurance" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Your Name<span class="asterick">*</span></label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required/>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="phone" class="form-label">Phone<span class="asterick">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text">+91</span>
+                        <input type="number" class="form-control mobile_number" id="phone" name="mobile_number"
+                                placeholder="Enter your phone number" maxlength="10" pattern="{0-9}" required/>
+                    </div>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label for="email" class="form-label">Email<span class="asterick"></span></label>
+                    <input type="email" class="form-control" id="email" name="email_id"
+                        placeholder="Enter your email" />
+                </div>
+
+                <div class=" col-md-6">
+                    <label for="state" class="form-label">State<span class="asterick">*</span></label>
+                    <select class="form-select" id="state" name="state" required>
+                        <option value="" selected disabled>Select State</option>
+                        <option value="andhra-pradesh">Andhra Pradesh</option>
+                        <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                        <option value="assam">Assam</option>
+                        <option value="bihar">Bihar</option>
+                        <option value="chhattisgarh">Chhattisgarh</option>
+                        <option value="goa">Goa</option>
+                        <option value="gujarat">Gujarat</option>
+                        <option value="haryana">Haryana</option>
+                        <option value="himachal-pradesh">Himachal Pradesh</option>
+                        <option value="jharkhand">Jharkhand</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="kerala">Kerala</option>
+                        <option value="madhya-pradesh">Madhya Pradesh</option>
+                        <option value="maharashtra">Maharashtra</option>
+                        <option value="manipur">Manipur</option>
+                        <option value="meghalaya">Meghalaya</option>
+                        <option value="mizoram">Mizoram</option>
+                        <option value="nagaland">Nagaland</option>
+                        <option value="odisha">Odisha</option>
+                        <option value="punjab">Punjab</option>
+                        <option value="rajasthan">Rajasthan</option>
+                        <option value="sikkim">Sikkim</option>
+                        <option value="tamil-nadu">Tamil Nadu</option>
+                        <option value="telangana">Telangana</option>
+                        <option value="tripura">Tripura</option>
+                        <option value="uttar-pradesh">Uttar Pradesh</option>
+                        <option value="uttarakhand">Uttarakhand</option>
+                        <option value="west-bengal">West Bengal</option>
+                    </select>
+                </div>
+
+      <div class="col-md-6">
+
+        <label for="state" class="form-label">City<span class="asterick">*</span></label>
+        <input type="text" class="form-control" placeholder="Enter City name" required>
+      </div>
+
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Message<span class="asterick">*</span></label>
+                <textarea class="form-control" id="message" name="messgae" rows="3"
+                    placeholder="Enter your message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-danger w-100">
+                Get Quote
+            </button>
+
+        </form>
+    </div>
+            
+</div>
+
+<script>
+    const url="{{url}}";
+    console.log(`${url}/LifeInsuranceapi/`)
+    const form=document.getElementById('form');
+
+    document.querySelector('#form').addEventListener('submit',(e)=>{
+
+        e.preventDefault();
+        const formData=new FormData(form);
+        
+        formData.append('franrefCode',"{{request.session.franchCode}}");
+
+
+    //     formData.forEach((value, key) => {
+    //     console.log(`${key}: ${value}`);
+    //    });
+
+        fetch(`${url}/LifeInsuranceapi/postlifeinsurance/`,{method:'POST',body:formData})
+        .then(res=>{
+            if (res.status==200 || res.status==201){
+                document.querySelector('.errorOrSucess').innerHTML="Successfully Submitted";
+                document.querySelector('.errorOrSucess').style.color="green";
+                form.reset()
+            }
+            else{
+                document.querySelector('.errorOrSucess').innerHTML="User Details Already exist";
+               document.querySelector('.errorOrSucess').style.color="red";
+               window.scrollTo({top:0,behavior:"smooth"});
+
+            }
+        })
+
+
+    });
+</script>
+
+{% endblock %}
