@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-ts2y#j3r+9d+0p&mkao!8!62d9qp$=^8fvungs97n24a!s%-k!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 SOURCE_PROJECT_URL = os.getenv('SOURCE_PROJECT_URL')
 ACCOUNTS_SOURCE_URL=os.getenv('ACCOUNTS_SOURCE_URL')
